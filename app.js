@@ -7,16 +7,18 @@ var persist = require('./persist')
 
 app.use(express.static(__dirname + '/node_modules'));  
 app.get('/', function(req, res,next) {  
-    console.log(persist)
-
-    let timeSeriesData = [
-     { price: 1.23 },
-     { price: 2.74 },
-     { price: 3.11 }
-    ]
     res.status(200).json({
     message: persist.getAverage(timeSeriesData)
     })
 });
 
-server.listen(5000);  
+io.on('connect', function(client) {  
+ console.log('A new client has come!');
+
+ client.on('price-queue', function(data) {
+     console.log('receive = ', data);
+     persist.storeData(data)
+ });
+});
+
+server.listen(5000); 
