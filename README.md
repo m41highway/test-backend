@@ -19,3 +19,9 @@ node app
 ```
 
 3. Nagivate to localhost:5000
+
+
+Build
+```
+docker build -t price-server .
+```
